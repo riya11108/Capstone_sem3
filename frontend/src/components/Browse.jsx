@@ -8,7 +8,9 @@ import axios from 'axios';
 import { JOB_API_END_POINT } from '@/utils/constant';
 import { Button } from './ui/button';
 
-// const randomJobs = [1, 2,45];
+import { motion } from 'framer-motion';
+
+// ... (other imports remain, just adding motion)
 
 const Browse = () => {
     const [jobs, setJobs] = useState([]);
@@ -63,39 +65,58 @@ const Browse = () => {
     }
 
     return (
-        <div>
+        <div className='bg-[#F5F8FF] min-h-screen'>
             <Navbar />
-            <div className='max-w-7xl mx-auto my-10'>
-                <h1 className='font-bold text-xl my-10'>Search Results ({totalJobs})</h1>
-                <div className='grid grid-cols-3 gap-4'>
+            <div className='max-w-7xl mx-auto py-10'>
+                <h1 className='font-bold text-2xl my-6 text-gray-800 px-4'>Search Results ({totalJobs})</h1>
+                <div className='px-4'>
                     {
-                        loading ? <span>Loading...</span> : jobs.length <= 0 ? <span>No Jobs Found</span> : jobs.map((job) => {
-                            return (
-                                <Job key={job._id} job={job} />
-                            )
-                        })
+                        loading ? (
+                            <div className="flex justify-center items-center h-[50vh]">
+                                <span className="text-gray-500 font-medium">Loading...</span>
+                            </div>
+                        ) : jobs.length <= 0 ? (
+                            <div className="flex justify-center items-center h-[50vh]">
+                                <span className="text-gray-500 font-medium text-lg">No Jobs Found</span>
+                            </div>
+                        ) : (
+                            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+                                {jobs.map((job) => (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -20 }}
+                                        transition={{ duration: 0.3 }}
+                                        key={job?._id}>
+                                        <Job job={job} />
+                                    </motion.div>
+                                ))}
+                            </div>
+                        )
                     }
+                    {/* Pagination Controls */}
+                    {totalPages > 1 && (
+                        <div className='flex justify-center gap-6 mt-12 mb-6 items-center'>
+                            <Button
+                                onClick={prevPage}
+                                disabled={currentPage === 1}
+                                className="bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 hover:text-blue-600 shadow-sm"
+                                variant="outline"
+                            >
+                                Previous
+                            </Button>
+                            <span className='text-gray-600 font-medium'>Page {currentPage} of {totalPages}</span>
+                            <Button
+                                onClick={nextPage}
+                                disabled={currentPage === totalPages}
+                                className="bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 hover:text-blue-600 shadow-sm"
+                                variant="outline"
+                            >
+                                Next
+                            </Button>
+                        </div>
+                    )}
                 </div>
-                {/* Pagination Controls */}
-                {totalPages > 1 && (
-                    <div className='flex justify-center gap-4 mt-8 mb-4 items-center'>
-                        <Button
-                            onClick={prevPage}
-                            disabled={currentPage === 1}
-                            variant="outline"
-                        >
-                            Previous
-                        </Button>
-                        <span className='text-sm text-gray-600'>Page {currentPage} of {totalPages}</span>
-                        <Button
-                            onClick={nextPage}
-                            disabled={currentPage === totalPages}
-                            variant="outline"
-                        >
-                            Next
-                        </Button>
-                    </div>
-                )}
             </div>
         </div>
     )

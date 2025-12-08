@@ -120,11 +120,11 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                 />
                             </div>
                             <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor="skills" className="text-right">Skills</Label>
+                                <Label htmlFor="bio" className="text-right">Bio</Label>
                                 <Input
-                                    id="skills"
-                                    name="skills"
-                                    value={input.skills}
+                                    id="bio"
+                                    name="bio"
+                                    value={input.bio}
                                     onChange={changeEventHandler}
                                     className="col-span-3"
                                 />
@@ -140,17 +140,31 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                     className="col-span-3"
                                 />
                             </div>
-                            <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor="file" className="text-right">Resume</Label>
-                                <Input
-                                    id="file"
-                                    name="file"
-                                    type="file"
-                                    accept="application/pdf"
-                                    onChange={fileChangeHandler}
-                                    className="col-span-3"
-                                />
-                            </div>
+                            {user?.role !== 'recruiter' && (
+                                <>
+                                    <div className='grid grid-cols-4 items-center gap-4'>
+                                        <Label htmlFor="skills" className="text-right">Skills</Label>
+                                        <Input
+                                            id="skills"
+                                            name="skills"
+                                            value={input.skills}
+                                            onChange={changeEventHandler}
+                                            className="col-span-3"
+                                        />
+                                    </div>
+                                    <div className='grid grid-cols-4 items-center gap-4'>
+                                        <Label htmlFor="file" className="text-right">Resume</Label>
+                                        <Input
+                                            id="file"
+                                            name="file"
+                                            type="file"
+                                            accept="application/pdf"
+                                            onChange={fileChangeHandler}
+                                            className="col-span-3"
+                                        />
+                                    </div>
+                                </>
+                            )}
                         </div>
                         <DialogFooter>
                             {
