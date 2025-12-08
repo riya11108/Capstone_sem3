@@ -6,7 +6,7 @@ import { Avatar, AvatarImage } from './ui/avatar'
 const LatestJobCards = ({ job }) => {
     const navigate = useNavigate();
     return (
-        <div onClick={() => navigate(`/description/${job._id}`)} className='p-5 rounded-md shadow-xl bg-white border border-gray-100 cursor-pointer'>
+        <div onClick={() => navigate(`/description/${job._id}`)} className='p-5 rounded-md shadow-xl bg-white border border-gray-100 cursor-pointer hover:shadow-2xl hover:scale-105 transition-all duration-300'>
             <div className='flex items-center gap-2'>
                 <Avatar>
                     <AvatarImage src={job?.company?.logo} />
@@ -23,7 +23,7 @@ const LatestJobCards = ({ job }) => {
             <div className='flex items-center gap-2 mt-4'>
                 <Badge className={'text-blue-700 font-bold'} variant="ghost">{job?.position} Positions</Badge>
                 <Badge className={'text-[#F83002] font-bold'} variant="ghost">{job?.jobType}</Badge>
-                <Badge className={'text-[#7209b7] font-bold'} variant="ghost">{job?.salary}LPA</Badge>
+                <Badge className={'text-[#2f55a4] font-bold'} variant="ghost">{job?.salary}LPA</Badge>
             </div>
 
         </div>
