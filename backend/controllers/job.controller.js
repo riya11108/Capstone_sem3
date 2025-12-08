@@ -75,9 +75,16 @@ export const getAllJobs = async (req, res) => {
             };
         }
 
+        const sort = req.query.sort || "newest";
+        let sortOption = { createdAt: -1 };
+        if (sort === "newest") sortOption = { createdAt: -1 };
+        else if (sort === "oldest") sortOption = { createdAt: 1 };
+        else if (sort === "salary_high") sortOption = { salary: -1 };
+        else if (sort === "salary_low") sortOption = { salary: 1 };
+
         const jobs = await Job.find(query)
             .populate({ path: "company" })
-            .sort({ createdAt: -1 })
+            .sort(sortOption)
             .skip(skip)
             .limit(limit);
 

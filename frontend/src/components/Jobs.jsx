@@ -14,12 +14,13 @@ const Jobs = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(false);
+    const [sort, setSort] = useState("newest");
 
     useEffect(() => {
         const fetchJobs = async () => {
             setLoading(true);
             try {
-                const res = await axios.get(`${JOB_API_END_POINT}/get?keyword=${searchedQuery}&page=${currentPage}&limit=6`, { withCredentials: true });
+                const res = await axios.get(`${JOB_API_END_POINT}/get?keyword=${searchedQuery}&page=${currentPage}&limit=6&sort=${sort}`, { withCredentials: true });
                 if (res.data.success) {
                     setJobs(res.data.jobs);
                     setTotalPages(res.data.totalPages || 1);
@@ -32,7 +33,7 @@ const Jobs = () => {
             }
         }
         fetchJobs();
-    }, [searchedQuery, currentPage]);
+    }, [searchedQuery, currentPage, sort]);
 
     // Reset to page 1 when query changes
     useEffect(() => {
@@ -58,6 +59,18 @@ const Jobs = () => {
                     {
                         loading ? <span>Loading...</span> : jobs.length <= 0 ? <span>Job not found</span> : (
                             <div className='flex-1 h-[88vh] overflow-y-auto pb-5'>
+                                <div className='flex justify-end mb-4'>
+                                    <select
+                                        value={sort}
+                                        onChange={(e) => setSort(e.target.value)}
+                                        className='p-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500'
+                                    >
+                                        <option value="newest">Newest</option>
+                                        <option value="oldest">Oldest</option>
+                                        <option value="salary_high">Salary: High to Low</option>
+                                        <option value="salary_low">Salary: Low to High</option>
+                                    </select>
+                                </div>
                                 <div className='grid grid-cols-3 gap-4'>
                                     {
                                         jobs.map((job) => (
