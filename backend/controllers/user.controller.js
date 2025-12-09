@@ -61,6 +61,7 @@ export const register = async (req, res) => {
         console.log(error);
         return res.status(500).json({
             message: "Internal Server Error",
+            error: error.message,
             success: false
         })
     }
@@ -120,6 +121,7 @@ export const login = async (req, res) => {
         console.log(error);
         return res.status(500).json({
             message: "Internal Server Error",
+            error: error.message,
             success: false
         })
     }
@@ -134,6 +136,7 @@ export const logout = async (req, res) => {
         console.log(error);
         return res.status(500).json({
             message: "Internal Server Error",
+            error: error.message,
             success: false
         })
     }
@@ -201,6 +204,7 @@ export const updateProfile = async (req, res) => {
         console.log(error);
         return res.status(500).json({
             message: "Internal Server Error",
+            error: error.message,
             success: false
         })
     }
